@@ -1,0 +1,82 @@
+# ==============================================================================
+# OFF TIMER (ACCURACY IN SECONDS)
+# ==============================================================================
+
+globals:
+  - id: timer_remaining_seconds
+    type: int
+    restore_value: no
+    initial_value: '0'
+
+number:
+  - platform: template
+    name: "Timer"
+    id: timer_duration
+    entity_category: config
+    icon: "mdi:timer-cog"
+    min_value: 1
+    max_value: 480
+    step: 1
+    unit_of_measurement: "min"
+    initial_value: 60
+    optimistic: true
+
+text_sensor:
+  - platform: template
+    name: "Timer time left"
+    id: timer_time_left
+    icon: "mdi:timer-sand"
+    lambda: |-
+      int total_sec = id(timer_remaining_seconds);
+      if (total_sec <= 0) {
+        return std::string("00:00");
+      }
+      
+      int hours = total_sec / 3600;
+      int minutes = (total_sec % 3600) / 60;
+      int seconds = total_sec % 60;
+      
+      char buffer[16];
+      if (hours > 0) {
+        // HH:mm:ss format if 60 minutes or more
+        sprintf(buffer, "%02d:%02d:%02d", hours, minutes, seconds);
+      } else {
+        // mm:ss format if less than 60 minutes
+        sprintf(buffer, "%02d:%02d", minutes, seconds);
+      }
+      return std::string(buffer);
+
+switch:
+  - platform: template
+    name: "Start timer"
+    id: timer_switch
+    icon: "mdi:timer-outline"
+    optimistic: true
+    on_turn_on:
+      then:
+        - lambda: |-
+            id(timer_remaining_seconds) = (int)(id(timer_duration).state * 60);
+            id(timer_time_left).update();
+        - script: execute: run_off_timer
+    on_turn_off:
+      then:
+        - script: stop: run_off_timer
+        - lambda: |-
+            id(timer_remaining_seconds) = 0;
+            id(timer_time_left).update();
+
+script:
+  - id: run_off_timer
+    mode: restart
+    then:
+      - while:
+          condition:
+            lambda: 'return id(timer_remaining_seconds) > 0;'
+          then:
+            - delay: 1s
+            - lambda: |-
+                id(timer_remaining_seconds) -= 1;
+                id(timer_time_left).update();
+      # On 0, turn off climate and switch
+      - climate.turn_off: ${device_name}climate
+      - switch.turn_off: timer_switch
