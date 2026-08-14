@@ -78,6 +78,8 @@ script:
                 id(timer_remaining_seconds) -= 1;
                 id(timer_time_left).update();
       # On 0, turn off climate and switch
-      - climate.turn_off:
-          id: ${device_name}climate
+      - lambda: |-
+          auto call = id(${device_name}climate).make_call();
+          call.set_mode(climate::CLIMATE_MODE_OFF);
+          call.perform();
       - switch.turn_off: timer_switch
