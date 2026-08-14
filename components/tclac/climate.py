@@ -55,7 +55,7 @@ SUPPORTED_FAN_MODES_OPTIONS = {
     "MEDIUM": ClimateMode.CLIMATE_FAN_MEDIUM,
     "HIGH": ClimateMode.CLIMATE_FAN_HIGH,
     "FOCUS": ClimateMode.CLIMATE_FAN_FOCUS,
-    "DIFFUSE": ClimateMode.CLIMATE_FAN_DIFFUSE,
+    "TURBO": ClimateMode.CLIMATE_FAN_DIFFUSE,
 }
 
 SUPPORTED_SWING_MODES_OPTIONS = {
@@ -161,7 +161,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_SUPPORTED_PRESETS,default=["NONE","ECO","SLEEP","COMFORT",],): cv.ensure_list(cv.enum(SUPPORTED_CLIMATE_PRESETS_OPTIONS, upper=True)),
             cv.Optional(CONF_SUPPORTED_SWING_MODES,default=["OFF","VERTICAL","HORIZONTAL","BOTH",],): cv.ensure_list(cv.enum(SUPPORTED_SWING_MODES_OPTIONS, upper=True)),
             cv.Optional(CONF_SUPPORTED_MODES,default=["OFF","AUTO","COOL","HEAT","DRY","FAN_ONLY",],): cv.ensure_list(cv.enum(SUPPORTED_CLIMATE_MODES_OPTIONS, upper=True)),
-            cv.Optional(CONF_SUPPORTED_FAN_MODES,default=["AUTO","QUIET","LOW","MIDDLE","MEDIUM","HIGH","FOCUS","DIFFUSE",],): cv.ensure_list(cv.enum(SUPPORTED_FAN_MODES_OPTIONS, upper=True)),
+            cv.Optional(CONF_SUPPORTED_FAN_MODES,default=["AUTO","QUIET","LOW","MIDDLE","MEDIUM","HIGH","FOCUS","TURBO",],): cv.ensure_list(cv.enum(SUPPORTED_FAN_MODES_OPTIONS, upper=True)),
         }
     )
     .extend(uart.UART_DEVICE_SCHEMA)
