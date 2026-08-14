@@ -1,5 +1,5 @@
 # ==============================================================================
-# OFF TIMER (ACCURACY IN SECONDS)
+# TURN OFF TIMER (ACCURACY IN SECONDS)
 # ==============================================================================
 
 globals:
@@ -78,5 +78,6 @@ script:
                 id(timer_remaining_seconds) -= 1;
                 id(timer_time_left).update();
       # On 0, turn off climate and switch
-      - climate.turn_off: ${device_name}climate
+      - climate.turn_off:
+          id: ${device_name}climate
       - switch.turn_off: timer_switch
