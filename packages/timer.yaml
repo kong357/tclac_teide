@@ -57,10 +57,10 @@ switch:
         - lambda: |-
             id(timer_remaining_seconds) = (int)(id(timer_duration).state * 60);
             id(timer_time_left).update();
-        - script: execute: run_off_timer
+        - script.execute: run_off_timer
     on_turn_off:
       then:
-        - script: stop: run_off_timer
+        - script.stop: run_off_timer
         - lambda: |-
             id(timer_remaining_seconds) = 0;
             id(timer_time_left).update();
