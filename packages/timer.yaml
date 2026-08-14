@@ -25,6 +25,7 @@ text_sensor:
   - platform: template
     name: "Timer time left"
     id: timer_time_left
+    entity_category: config
     icon: "mdi:timer-sand"
     lambda: |-
       int total_sec = id(timer_remaining_seconds);
@@ -50,6 +51,7 @@ switch:
   - platform: template
     name: "Start timer"
     id: timer_switch
+    entity_category: config
     icon: "mdi:timer-outline"
     optimistic: true
     on_turn_on:
