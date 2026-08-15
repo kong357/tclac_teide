@@ -25,7 +25,6 @@ text_sensor:
   - platform: template
     name: "Timer time left"
     id: timer_time_left
-    entity_category: config
     icon: "mdi:timer-sand"
     lambda: |-
       int total_sec = id(timer_remaining_seconds);
