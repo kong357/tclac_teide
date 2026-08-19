@@ -769,6 +769,15 @@ void tclacClimate::set_display_state(bool disp_state) {
         }
     }
 }
+// 
+void tclacClimate::set_anti_mildew_state(bool mildew_state) {
+    this->anti_mildew_status_ = mildew_state;
+    if (force_mode_status_) {
+        if (allow_take_control) {
+            tclacClimate::takeControl();
+        }
+    }
+}
 // Get force mode settings state
 void tclacClimate::set_force_mode_state(bool f_state) {
     this->force_mode_status_ = f_state;
