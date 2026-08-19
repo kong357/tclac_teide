@@ -154,6 +154,7 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_beeper_state(false);
 
+
   # Target temperature display on indoor unit body, enabled by default
   - name: Display
     platform: template
@@ -171,6 +172,7 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_display_state(false);
 
+
   # LED indication for data exchange with AC, disabled by default
   - name: Display on module
     platform: template
@@ -187,6 +189,7 @@ switch:
       then:
         lambda: !lambda |-
           id(${device_name}climate).set_module_display_state(false);
+
 
   - name: Force config
     platform: template
