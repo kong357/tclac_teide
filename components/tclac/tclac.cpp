@@ -188,6 +188,9 @@ void tclacClimate::readData() {
 
         this->display_status_ = (dataRX[MODE_POS] & DISPLAY_BIT) != 0;
 
+        // Synchronize Anti-mildew state with the actual AC status
+        this->anti_mildew_status_ = (dataRX[9] & 0x08) != 0;
+
         uint8_t modeswitch = MODE_MASK & dataRX[MODE_POS];
         uint8_t fanspeedswitch = FAN_SPEED_MASK & dataRX[FAN_SPEED_POS];
         uint8_t swingmodeswitch = SWING_MODE_MASK & dataRX[SWING_POS];
@@ -429,7 +432,16 @@ void tclacClimate::takeControl() {
                 break;
         }
     }
-    
+
+    // Configure Anti-mildew
+    if (this->anti_mildew_status_) {
+        dataTX[8] |= 0x20;
+        ESP_LOGD("TCL", "Anti-mildew ON");
+    } else {
+        dataTX[8] &= static_cast<uint8_t>(~0x20);
+        ESP_LOGD("TCL", "Anti-mildew OFF");
+    }
+
     // Set louver swing mode
     switch(this->swing_mode) {
         case climate::CLIMATE_SWING_OFF:
