@@ -153,7 +153,7 @@ switch:
       then:
         lambda: !lambda |-
           id(${device_name}climate).set_beeper_state(false);
-  
+
   # Target temperature display on indoor unit body, enabled by default
   - name: Display
     platform: template
@@ -170,7 +170,7 @@ switch:
       then:
         lambda: !lambda |-
           id(${device_name}climate).set_display_state(false);
-  
+
   # LED indication for data exchange with AC, disabled by default
   - name: Display on module
     platform: template
@@ -187,7 +187,7 @@ switch:
       then:
         lambda: !lambda |-
           id(${device_name}climate).set_module_display_state(false);
-          
+
   - name: Force config
     platform: template
     device_class: switch
@@ -203,6 +203,19 @@ switch:
       then:
         lambda: !lambda |-
           id(${device_name}climate).set_force_mode_state(false);
+
+    - name: Anti-mildew
+      platform: template
+      id: anti_mildew
+      entity_category: config
+      lambda: |-
+        return id(${device_name}climate).get_anti_mildew_state();
+      turn_on_action:
+        - lambda: |-
+            id(${device_name}climate).set_anti_mildew_state(true);
+      turn_off_action:
+        - lambda: |-
+            id(${device_name}climate).set_anti_mildew_state(false);
 
 # - Dropdown lists
 select:

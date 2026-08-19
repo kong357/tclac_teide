@@ -125,6 +125,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
         // Initialization and initial population of switch state variables
         bool beeper_status_;
         bool display_status_;
+        bool anti_mildew_status_;
         bool force_mode_status_;
         uint8_t switch_preset = 0;
         bool module_display_status_;
@@ -158,6 +159,10 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
         void update() override;
         void set_beeper_state(bool state);
         void set_display_state(bool disp_state);
+        void set_anti_mildew_state(bool mildew_state);
+        bool get_anti_mildew_state() const {
+            return this->anti_mildew_status_;
+        }
         // Actual AC display state (synchronized from status frames in readData)
 		
         bool get_display_state() { return this->display_status_; }
