@@ -106,6 +106,8 @@ uart:
   stop_bits: 1
   rx_pin: ${uart_rx}
   tx_pin: ${uart_tx}
+  debug:
+    direction: BOTH
 
 api:
   encryption:
